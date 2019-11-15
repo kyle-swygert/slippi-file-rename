@@ -319,7 +319,8 @@ def rename_files_in_folder(folder):
 
             #print(curr)
 
-            if curr.split('.')[-1] == 'slp':
+
+            if curr.endswith('.slp') == True:
 
                 # NOTE: when building the pathname, we can use the os.path.join() function to insert the '/' characters into the path automatically. 
 
@@ -434,7 +435,7 @@ def rename_files_in_folder(folder):
                     
 
             else:
-                print(f'WRONG FORMAT: {currFilePath}')
+                print(f'WRONG FORMAT: {curr}')
 
 
     print(f"finished renaming files in {folder}")
@@ -446,7 +447,6 @@ def rename_files_in_folder(folder):
 
 # NOTE: these function calls below will only execute when the file itself is executed. When the file is exported as a module, then these function calls will not execute automatically. 
 if __name__ == "__main__":
-
 
     directory = path.join(path.dirname(path.realpath(__file__)), 'slp')
 

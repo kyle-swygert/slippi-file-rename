@@ -6,10 +6,11 @@
 from renameGames import rename_files_in_folder
 import tkinter as tk
 from tkinter import *
-import tkinter.tix as tix
+import tkinter.tix as tx
 
+import threading
 
-class Application(tk.Tk):
+class Application(tx.Tk):
 
     def __init__(self):
 
@@ -24,9 +25,9 @@ class Application(tk.Tk):
         self.execute_button["command"] = self.button_clicked
         self.execute_button.pack(side="right")
 
-        self.browse_button = tk.Button(self)
-        self.browse_button["text"] = "Browse"
-        self.browse_button["command"] = self.select_directory
+        self.browse_button = tk.Button(self, text="Browse", command=self.select_directory)
+        #self.browse_button["text"] = "Browse"
+        #self.browse_button["command"] = self.select_directory
         self.browse_button.pack(side="right")
 
         self.dir_textbox = tk.Entry(self, width=200)
@@ -40,25 +41,60 @@ class Application(tk.Tk):
 
         # why the fuck is the directory selection dialog not working properly............
 
-        dir_picker = tix.DirSelectDialog(master=self, command=self.print_dir)
+        #dir_picker = tx.DirSelectDialog(master=self, command=self.print_dir)
+
+        dir_picker = tx.DirSelectDialog(master=self, command=self.print_dir)
+
+        # set the size of the dir dialog box. 
+            # how can we do this?
 
         dir_picker.popup()
 
+
     def print_dir(self, args):
-        print(f"selected dir: {args}")
+        print(f"selected dir: testing this function. {args} ")
+        # add the directory to the textbox. 
+
+        for letter in self.dir_textbox.get():
+            self.dir_textbox.delete(0)
+
+        #self.dir_textbox.delete(0)
+        self.dir_textbox.insert(0, args)
+
 
 
     def button_clicked(self):
+
+        # TODO: make a new thread, disable the button, run the renaming function call on the new thread, then enable the button after the rename function has completed. 
+
+
+        # disable the rename button
+        self.execute_button['state'] = 'disabled'
 
         s = self.dir_textbox.get()
 
         if s != '' and s != "Enter a Directory to rename:":
 
-            rename_files_in_folder(self.dir_textbox.get())
+            print('before thread execution:')
+
+            # Made the thread a daemon. This means that the rename_files_in_folder() function will stop executing when the window is closed. 
+            thread = threading.Thread(target=rename_files_in_folder, args=(self.dir_textbox.get(),), daemon=True)
+
+            thread.start()
+
+            #rename_files_in_folder(self.dir_textbox.get())
+
+            
+            
+            
+            print('after thread execution:')
+
         else:
 
             rename_files_in_folder("./slp")
 
+        # re-enable the rename button
+        self.execute_button['state'] = 'normal'
     
 
 
