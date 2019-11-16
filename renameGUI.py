@@ -1,8 +1,6 @@
 
 
 
-
-
 from renameGames import rename_files_in_folder
 import tkinter as tk
 from tkinter import *
