@@ -1,12 +1,17 @@
+'''
+    Slippi File Renaming GUI Program: Select Directory to rename files in with a GUI for user simplicity. 
 
+        Written By: Kyle "1ncredibr0" Swygert
+        Using py-slippi v1.3.1, python 3.6+, and tkinter
 
-
-
+'''
 
 from renameGames import rename_files_in_folder
 import tkinter as tk
 from tkinter import *
 import tkinter.tix as tx
+from os import path
+
 
 import threading
 
@@ -15,10 +20,16 @@ class Application(tx.Tk):
     def __init__(self):
 
         # TODO: format the widgets better and add a label to the application.
-        super().__init__(className="SLIPPI RENAME TOOL")
-        self.minsize(800, 300)
-        self.maxsize(800, 300)
+        super().__init__(className=" SLIPPI RENAME TOOL")
+        self.minsize(600, 300)
+        self.maxsize(600, 300)
+        # adding the Slippi logo to the application frame. 
+            # get the current directiry of the program. 
+        logoPath = path.join(path.dirname(path.realpath(__file__)), 'slippi-logo.png')
+        self.tk.call('wm', 'iconphoto', self._w, tk.PhotoImage(file=logoPath))
 
+        self.prompt_label = tk.Label(self, text="Please enter a Directory to rename: ")
+        self.prompt_label.pack(side="top")
 
         self.execute_button = tk.Button(self)
         self.execute_button["text"] = "Rename Files"
@@ -38,10 +49,6 @@ class Application(tx.Tk):
     def select_directory(self):
         # select the directory. if a directory is selected, fill in the text box with the path string.
         # if the selection is cancelled, fill the text box with the default string. 
-
-        # why the fuck is the directory selection dialog not working properly............
-
-        #dir_picker = tx.DirSelectDialog(master=self, command=self.print_dir)
 
         dir_picker = tx.DirSelectDialog(master=self, command=self.print_dir)
 
@@ -69,7 +76,7 @@ class Application(tx.Tk):
 
 
         # disable the rename button
-        self.execute_button['state'] = 'disabled'
+        #self.execute_button['state'] = 'disabled'
 
         s = self.dir_textbox.get()
 
@@ -94,7 +101,7 @@ class Application(tx.Tk):
             rename_files_in_folder("./slp")
 
         # re-enable the rename button
-        self.execute_button['state'] = 'normal'
+        #self.execute_button['state'] = 'normal'
     
 
 
