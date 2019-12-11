@@ -17,6 +17,12 @@ TODO: Rename replays against CPUs using the tag CPU for the character to make su
 
 TODO: generate file that lists the files that caused and error and the error that was caused. 
 
+TODO: this is the file that will be reformatted and changed to accommodate threaded execution of the program. 
+
+
+
+
+
 '''
 
 
@@ -300,6 +306,10 @@ def rename_files_in_folder(folder):
         NOTE: Thiw might mean that the way that the program works may need to be changed. if there is a directory in a directory, don't rename the directory recursively, ONLY rename the .slp files in the directory. 
 
         make a list of threads, where each thread is a function execution of the rename_files_in_folder() function. Only execute 4 threads at a time. when one thread is complete, add another thread to the currently running queue. 
+
+        enumerate the directories inside the main directory, make threads for each one, then add the threads to a list. 
+
+        Each individual directory will only rename the files, NOT the other directories that are contained in the main directory. This should make the threaded execution of the program much quicker. 
 
 
         '''
