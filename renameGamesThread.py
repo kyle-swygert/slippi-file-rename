@@ -30,6 +30,16 @@ TODO: this is the file that will be reformatted and changed to accommodate threa
 from slippi import *
 from os import walk, listdir, rename, path
 
+def enumerate_subdirectories(folder):
+
+    sub_dirs = []
+
+    for root, dirs, files in walk(folder):
+        print(f'new directory: {root}')
+        sub_dirs.append(root)
+
+    return sub_dirs
+
 def generate_file_name(slippiFile):
     '''
     TODO: create cases in this function in the future to rename files based on the type of game being played. 
@@ -295,6 +305,11 @@ def rename_files_in_folder(folder):
         return
 
     print(f'{folder} exists, renaming all files in the folder...')
+
+    yuck = enumerate_subdirectories(folder)
+
+    for yes in yuck:
+        print(f'test dir: {yes}')
 
     for root, dirs, files in walk(folder):
         # root represents the current directory that is being processed
