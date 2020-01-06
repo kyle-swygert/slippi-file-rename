@@ -6,6 +6,7 @@ This is a rewritten version of the GUI renaming app using PyQt.
 TODO: Figure out how to make a proper threading feature in this application to make sure the app works like you think it should. This might include using the QtCore modules for proper app design, rather than building a super simple app in the beginning. 
 '''
 
+import os
 
 from renameGames import rename_files_in_folder
 
@@ -35,6 +36,8 @@ class SlippiRenameApp(QApplication):
         # self.tempLabel = QLabel("my test label")
         # self.layout.addWidget(self.tempLabel)
         # #self.tempLabel.show()
+
+        # TODO: change the size of the application window
 
         self.setWindowIcon(QtGui.QIcon('slippi-logo.png'))
 
@@ -73,16 +76,28 @@ class SlippiRenameApp(QApplication):
     def select_directory(self):
         print('selecting a directory to rename')
 
-        # open the directory selector at the home directory of the computer
-        tempDir = str(QFileDialog.getExistingDirectory(None, "select a dir", '/'))
+        # open the directory selector at the Desktop directory of the computer
+        #tempDir = str(QFileDialog.getExistingDirectory(None, "select a dir", os.path.join(os.environ['USERPROFILE'], 'Desktop')))
 
-        print(f"selected dir: {tempDir}, do stuff with the dir now...")
+        # open the dir selector to the Desktop directory with a custom prompt on the top of the window. 
+        tempDir = str(QFileDialog.getExistingDirectory(None, "Select a Directory to rename Slippi Files", os.path.join(os.environ['USERPROFILE'], 'Desktop')))
 
-        # delete the string that is in the dir_textbox
-        self.dir_textbox.clear()
-        # set the selected dir as the string inside the self.dir_textbox object. 
-        self.dir_textbox.setText(tempDir)
+        if tempDir == '':
+            # set the string in the selection box to the default string value. 
+            print("directory was not selected, resetting default string value...")
+            self.dir_textbox.clear()
+            self.dir_textbox.setText('Enter a Directory to Rename:')
+        else:
+            print(f"selected dir: {tempDir}, do stuff with the dir now...")
+            # delete the string that is in the dir_textbox
+            self.dir_textbox.clear()
+            # set the selected dir as the string inside the self.dir_textbox object. 
+            self.dir_textbox.setText(tempDir)
 
+
+        #print(f"desktop directory: { os.path.join(os.environ['USERPROFILE'], 'Desktop') }")
+
+        
     def rename_button_clicked(self):
         print(f"the rename button was clicked")
         print(f'directory to rename: {self.dir_textbox.text()}')
