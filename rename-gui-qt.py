@@ -7,6 +7,7 @@ TODO: Figure out how to make a proper threading feature in this application to m
 '''
 
 import os
+from sys import platform
 
 from renameGames import rename_files_in_folder
 
@@ -79,8 +80,19 @@ class SlippiRenameApp(QApplication):
         # open the directory selector at the Desktop directory of the computer
         #tempDir = str(QFileDialog.getExistingDirectory(None, "select a dir", os.path.join(os.environ['USERPROFILE'], 'Desktop')))
 
+        tempDir = ''
+
+
         # open the dir selector to the Desktop directory with a custom prompt on the top of the window. 
-        tempDir = str(QFileDialog.getExistingDirectory(None, "Select a Directory to rename Slippi Files", os.path.join(os.environ['USERPROFILE'], 'Desktop')))
+        # NOTE: The code below works with Windows. Test that it works with Linux. DOES NOT work on MacOS!!!!
+
+
+        # TODO: test that the top if statement would work with linux!!!!
+        if platform == 'win32' or platform == 'linux':
+            tempDir = str(QFileDialog.getExistingDirectory(None, "Select a Directory to rename Slippi Files", os.path.join(os.environ['USERPROFILE'], 'Desktop')))
+        elif platform == 'darwin':
+            tempDir = str(QFileDialog.getExistingDirectory(None, "Select a Directory to rename Slippi Files", os.path.join(os.path.expanduser('~') , 'Desktop')))
+
 
         if tempDir == '':
             # set the string in the selection box to the default string value. 
@@ -103,7 +115,7 @@ class SlippiRenameApp(QApplication):
         print(f'directory to rename: {self.dir_textbox.text()}')
         # rename the selected directory based on the text that is in the dir_textbox object
 
-        rename_thread = Thread(target=rename_files_in_folder, args=(self.dir_textbox.text(),), daemon=False)
+        rename_thread = Thread(target=rename_files_in_folder, args=(self.dir_textbox.text(),), daemon=True)
 
         rename_thread.start()
 
