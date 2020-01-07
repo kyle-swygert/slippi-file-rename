@@ -88,9 +88,9 @@ class SlippiRenameApp(QApplication):
 
 
         # TODO: test that the top if statement would work with linux!!!!
-        if platform == 'win32' or platform == 'linux':
+        if platform == 'win32':
             tempDir = str(QFileDialog.getExistingDirectory(None, "Select a Directory to rename Slippi Files", os.path.join(os.environ['USERPROFILE'], 'Desktop')))
-        elif platform == 'darwin':
+        elif platform == 'darwin' or platform == 'linux':
             tempDir = str(QFileDialog.getExistingDirectory(None, "Select a Directory to rename Slippi Files", os.path.join(os.path.expanduser('~') , 'Desktop')))
 
 
