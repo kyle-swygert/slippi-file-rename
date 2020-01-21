@@ -109,7 +109,8 @@ def generate_file_name(slippiFileName):
     
 
     except:
-        print(f'CORRUPTED: {slippiFileName}')
+        #print(f'CORRUPTED: {slippiFileName}')
+        pass
 
     return newFile
 
@@ -331,14 +332,14 @@ def rename_files_in_folder(folder):
     this function accepts the name of a folder as a string and will rename all the .slp files in the directory and sub-directories. 
     '''
 
-    print('folder that contains all the slippi files: {}'.format(folder))
+    #print('folder that contains all the slippi files: {}'.format(folder))
 
     # check that the folder exists in the system. 
     if path.exists(folder) == False:
-        print(f'{folder} does not exist in the system')
+        #print(f'{folder} does not exist in the system')
         return
 
-    print(f'{folder} exists, renaming all files in the folder...')
+    #print(f'{folder} exists, renaming all files in the folder...')
 
     for root, dirs, files in walk(folder):
         # root represents the current directory that is being processed
@@ -360,7 +361,7 @@ def rename_files_in_folder(folder):
 
         # TODO: in the future, reorganize the code so that the path.join() method is only called once in this funtion. will make this code cleaner in my opinion. 
 
-        print(f"Processing Directory {root}: ")
+        #print(f"Processing Directory {root}: ")
 
         for curr in files:
             #print(root + curr)
@@ -393,7 +394,8 @@ def rename_files_in_folder(folder):
                     newFilePath = path.join(root, newFileNameWhole)
                     rename(currFilePath, newFilePath)
                 else:
-                    print('something went wrong...')
+                    #print('something went wrong...')
+                    pass
 
                 '''
                 try:
@@ -497,10 +499,11 @@ def rename_files_in_folder(folder):
                 '''
 
             else:
-                print(f'WRONG FORMAT: {curr}')
+                #print(f'WRONG FORMAT: {curr}')
+                pass
 
 
-    print(f"finished renaming files in {folder}")
+    #print(f"finished renaming files in {folder}")
 
 
 # NOTE: this is where the program starts executing when run as a command line program. 
@@ -510,4 +513,4 @@ if __name__ == "__main__":
 
     rename_files_in_folder(directory)
 
-    print("All files in the directory have been renamed.")
+    #print("All files in the directory have been renamed.")

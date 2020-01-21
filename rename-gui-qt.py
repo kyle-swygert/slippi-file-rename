@@ -68,6 +68,7 @@ class SlippiRenameApp(QApplication):
 
         self.window.setWindowTitle("Slippi File Rename")
         self.window.setLayout(self.layout)
+        self.window.setFixedSize(500, 300)
         self.window.show()
 
         # starting the GUI app itself
