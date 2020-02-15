@@ -1,32 +1,44 @@
+'''
+    Slippi File Renaming GUI Program: Select Directory to rename files in with a GUI for user simplicity. 
 
+        Written By: Kyle "1ncredibr0" Swygert
+        Using py-slippi v1.3.1, python 3.6+, and tkinter
 
-
-
+'''
 
 from renameGames import rename_files_in_folder
 import tkinter as tk
 from tkinter import *
-import tkinter.tix as tix
+import tkinter.tix as tx
+from os import path
 
 
-class Application(tk.Tk):
+import threading
+
+class Application(tx.Tk):
 
     def __init__(self):
 
         # TODO: format the widgets better and add a label to the application.
-        super().__init__(className="SLIPPI RENAME TOOL")
-        self.minsize(800, 300)
-        self.maxsize(800, 300)
+        super().__init__(className=" SLIPPI RENAME TOOL")
+        self.minsize(600, 300)
+        self.maxsize(600, 300)
+        # adding the Slippi logo to the application frame. 
+            # get the current directiry of the program. 
+        logoPath = path.join(path.dirname(path.realpath(__file__)), 'slippi-logo.png')
+        self.tk.call('wm', 'iconphoto', self._w, tk.PhotoImage(file=logoPath))
 
+        self.prompt_label = tk.Label(self, text="Please enter a Directory to rename: ")
+        self.prompt_label.pack(side="top")
 
         self.execute_button = tk.Button(self)
         self.execute_button["text"] = "Rename Files"
         self.execute_button["command"] = self.button_clicked
         self.execute_button.pack(side="right")
 
-        self.browse_button = tk.Button(self)
-        self.browse_button["text"] = "Browse"
-        self.browse_button["command"] = self.select_directory
+        self.browse_button = tk.Button(self, text="Browse", command=self.select_directory)
+        #self.browse_button["text"] = "Browse"
+        #self.browse_button["command"] = self.select_directory
         self.browse_button.pack(side="right")
 
         self.dir_textbox = tk.Entry(self, width=200)
@@ -38,27 +50,58 @@ class Application(tk.Tk):
         # select the directory. if a directory is selected, fill in the text box with the path string.
         # if the selection is cancelled, fill the text box with the default string. 
 
-        # why the fuck is the directory selection dialog not working properly............
+        dir_picker = tx.DirSelectDialog(master=self, command=self.print_dir)
 
-        dir_picker = tix.DirSelectDialog(master=self, command=self.print_dir)
+        # set the size of the dir dialog box. 
+            # how can we do this?
 
         dir_picker.popup()
 
+
     def print_dir(self, args):
-        print(f"selected dir: {args}")
+        print(f"selected dir: testing this function. {args} ")
+        # add the directory to the textbox. 
+
+        for letter in self.dir_textbox.get():
+            self.dir_textbox.delete(0)
+
+        #self.dir_textbox.delete(0)
+        self.dir_textbox.insert(0, args)
+
 
 
     def button_clicked(self):
+
+        # TODO: make a new thread, disable the button, run the renaming function call on the new thread, then enable the button after the rename function has completed. 
+
+
+        # disable the rename button
+        #self.execute_button['state'] = 'disabled'
 
         s = self.dir_textbox.get()
 
         if s != '' and s != "Enter a Directory to rename:":
 
-            rename_files_in_folder(self.dir_textbox.get())
+            print('before thread execution:')
+
+            # Made the thread a daemon. This means that the rename_files_in_folder() function will stop executing when the window is closed. 
+            thread = threading.Thread(target=rename_files_in_folder, args=(self.dir_textbox.get(),), daemon=True)
+
+            thread.start()
+
+            #rename_files_in_folder(self.dir_textbox.get())
+
+            
+            
+            
+            print('after thread execution:')
+
         else:
 
             rename_files_in_folder("./slp")
 
+        # re-enable the rename button
+        #self.execute_button['state'] = 'normal'
     
 
 
