@@ -13,8 +13,6 @@
 
 TODO: generate file that lists the files that caused and error and the error that was caused. 
 
-TODO: get the date-time for each file before the file is opened. reformat functions to only output the name of the file without the date-time attached. append the date-time after the filename has been generated. 
-
 TODO: reformat the script so that the path.join() and the rename() functions are only called once. will make the program cleaner to read in the future. 
 
 '''
@@ -364,23 +362,10 @@ def rename_files_in_folder(folder):
         #print(f"Processing Directory {root}: ")
 
         for curr in files:
-            #print(root + curr)
-
-            '''when using the rename() function:
-
-                dst += .slp
-
-                dst = root + '/' + dst
-                src = root + '/' + originalFileName
-
-            '''
 
             # check if the file ends in .slp
             # check that the game is not a teams or FFA
             # if only a 2 player game, send the SlippiGame file to the generate_file_name() function. 
-
-            #print(curr)
-
 
             if curr.endswith('.slp') == True:
 
@@ -396,107 +381,6 @@ def rename_files_in_folder(folder):
                 else:
                     #print('something went wrong...')
                     pass
-
-                '''
-                try:
-
-                    tempGame = Game(currFilePath)
-                    
-                    #tempGame = Game(curr)
-
-                    if tempGame.start.is_teams != True:
-
-                        # Count number of players in current game
-                        currentPlayers = 0
-                        for player in tempGame.start.players:
-                            if player != None:
-                                currentPlayers += 1
-
-                        #print('number of players in game: {}'.format(currentPlayers))
-
-                        if currentPlayers != 2:
-                        
-                            ffaFile = ''
-                            ffaFile = generate_free_for_all_game_name(tempGame)
-
-                            ffaFile = path.join(root, ffaFile)
-
-                            #print('old file name: {}'.format(currFilePath))
-                            #print('new file name: {}\n\n'.format(ffaFile))
-
-                            rename(currFilePath, ffaFile)
-
-                            #print('RENAMED A FREE FOR ALL GAME: ')
-
-
-                        else: 
-
-                            try:
-
-                                #print('the game only has 2 players')
-
-                                try:
-                                        
-
-                                    newFileName = ''
-                                    newFileName = generate_singles_game_name(tempGame)
-
-                                except:
-                                    print('could not create single game name')
-
-                                #print('just created a file name: {}'.format(newFileName))
-
-                                #newFileName += '.slp'
-
-                                #print("new file name: {}".format(newFileName))
-
-                                #newFileName = root + '/' + newFileName
-
-                                try:
-
-                                    newFileName = path.join(root, newFileName)
-
-                                except:
-                                    print('could not join the root and the new file name')
-
-                                #print('old file name: {}'.format(currFilePath))
-                                #print('new file name: {}\n\n'.format(newFileName))
-
-
-                                try:
-                                        
-
-                                    rename(currFilePath, newFileName) # note: this line here is causing issues when running on windows... I wonder why this is happening... This might be because of the file path differences between Linux and windows...
-                                    #print('successfully renamed the file')
-
-                                except:
-                                    print(f"Can't RENAME: {currFilePath}")
-
-                            except:
-                                print(f"Can't process SINGLES: {currFilePath}")
-                            
-                    else:
-                    
-                        try:
-
-                            doubles = ''
-                            doubles = generate_doubles_game_name(tempGame)
-
-                            doubles = path.join(root, doubles)
-
-                            rename(currFilePath, doubles)
-
-                        except:
-                            print(f"Can't process TEAMS: {currFilePath}")
-
-                except:
-                    # TODO: look into why the renaming program breaks here. what exception is being thrown? This might be because of the replay being cut off when the connection was cut. see if there is any way to tell if a file is malformed...
-
-                    # TODO: look into if this block is reached ONLY if the file is corrupt. 
-
-                    print(f'CORRUPTED: {currFilePath}')
-                    
-                '''
 
             else:
                 #print(f'WRONG FORMAT: {curr}')
