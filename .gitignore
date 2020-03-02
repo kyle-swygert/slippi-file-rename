@@ -1,0 +1,10 @@
+
+# Directories and files created when building the release of the program
+/dist
+/__pycache__
+/.vscode
+/build
+*.spec
+
+# Slippi Files that may be in the git repository will not be uploaded
+*.slp
